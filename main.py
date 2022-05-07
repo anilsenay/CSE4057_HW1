@@ -1,6 +1,7 @@
 from q1 import generate_ECDH, generate_rsa, printECDH
 from q2 import q2a, q2b
 from q3 import generate_digital_sign
+from q4 import AES_Encryption
 from q5 import generateMsgAuthCode
 
 # Question 1
@@ -22,6 +23,7 @@ q2b(K_B, K_C)
 generate_digital_sign(K_A["keyPair"])
 
 # Question 4
+AES_Encryption(symmetric_keys)
 
 # Question 5
 generateMsgAuthCode(symmetric_keys)
