@@ -6,25 +6,25 @@ from Crypto.Hash import SHA256
 
 from utils import printColored, printHeader
 
+# Create a random text with 1000 characters
 random_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in condimentum justo, vitae suscipit tellus. Phasellus maximus odio dolor, et gravida leo congue vitae. Nam eget metus placerat, semper sem non, ultrices massa. Nullam facilisis lacinia magna vitae blandit. Vivamus varius, ante ut pretium posuere, sapien ligula dignissim mauris, non fermentum leo leo nec est. Nullam ac lectus ultrices, faucibus sapien a, maximus neque. Curabitur augue nunc, fringilla at turpis sit amet, venenatis rhoncus ante. Proin placerat odio dignissim nibh suscipit malesuada. Suspendisse a dui sit amet urna aliquet bibendum ut euismod urna. Cras ac dignissim nisl. Maecenas metus quam, placerat faucibus nulla nec, mattis tempor mauris. Fusce ac volutpat quam. Integer neque metus, dapibus porta justo ut, tempor sagittis diam. Pellentesque nibh libero, tincidunt id leo at, faucibus porttitor turpis. Nullam volutpat a erat et varius. Nullam sit amet purus vitae ex convallis suscipit at in nibh. In congue at."
 
 # Generate digital signature
-
-
 def generate_digital_sign(rsa_key):
     printHeader("=== PLAINTEXT ===")
     print(random_text[0:20] + "...")
 
     printHeader("=== HASHING WITH SHA256 === ")
-    hashed_text = SHA256.new(str.encode(random_text))
+    hashed_text = SHA256.new(str.encode(random_text)) # hashing the random text with SHA256
     printColored("Hashed with SHA256: ", hashed_text.hexdigest())
 
     printHeader("=== SIGN WITH PRIVATE KEY === ")
-    digital_signature = pkcs1_15.new(rsa_key).sign(hashed_text)
+    digital_signature = pkcs1_15.new(rsa_key).sign(hashed_text) # sign the hashed text with private key
     printColored("Signed with RSA (Digital Signature): ",
                  digital_signature.hex())
 
     printHeader("=== VERIFY WITH PUBLIC KEY === ")
+    # Verify the digital signature and hashed text with public key
     try:
         pkcs1_15.new(rsa_key).verify(
             hashed_text, digital_signature)

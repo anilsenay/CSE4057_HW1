@@ -32,28 +32,21 @@ def q2a(rsa_key):
     [key1, key2] = generateSymmetricKey()
 
     printHeader("=== ENCRPYTION SYMMETRIC KEYS === ")
-    # Create cipher object
-    cipher_rsa = PKCS1_OAEP.new(rsa_key)
-    # Encrypt key1 by using cipher object
-    encrpyted_key1 = cipher_rsa.encrypt(key1)
-    # Encrypt key2 by using cipher object
-    encrpyted_key2 = cipher_rsa.encrypt(key2)
+    cipher_rsa = PKCS1_OAEP.new(rsa_key)  # Create cipher object
+    encrpyted_key1 = cipher_rsa.encrypt(key1) # Encrypt key1 by using cipher object
+    encrpyted_key2 = cipher_rsa.encrypt(key2)  # Encrypt key2 by using cipher object
     printColored("Encrypted Key1: ", encrpyted_key1.hex())
     printColored("Encrypted Key2: ", encrpyted_key2.hex())
 
     printHeader("=== DECRPYTION SYMMETRIC KEYS === ")
-    # Decrypt key1 by using cipher object
-    decrpyted_key1 = cipher_rsa.decrypt(encrpyted_key1)
-    # Decrypt key2 by using cipher object
-    decrpyted_key2 = cipher_rsa.decrypt(encrpyted_key2)
+    decrpyted_key1 = cipher_rsa.decrypt(encrpyted_key1)  # Decrypt key1 by using cipher object
+    decrpyted_key2 = cipher_rsa.decrypt(encrpyted_key2) # Decrypt key2 by using cipher object
     printColored("Decrypted Key1: ", decrpyted_key1.hex())
     printColored("Decrypted Key2: ", decrpyted_key2.hex())
 
     return [key1, key2]
 
 # Generate a 256 bit symmetric key using Elliptic key Diffie Helman
-
-
 def q2b(K_B, K_C):
     printHeader("=== GENERATING SYMMETRIC KEY FROM KB + KC === ")
 
