@@ -1,2 +1,3 @@
-files
+files/*
+!files/1mb_file
 __pycache__
