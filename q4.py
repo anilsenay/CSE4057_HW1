@@ -2,9 +2,10 @@ from Crypto.Cipher import AES
 from Crypto.Random.random import getrandbits
 from Crypto.Util.Padding import pad, unpad
 from base64 import b64encode
-from q3 import printColored
 from Crypto.Random import get_random_bytes
 import timeit
+
+from utils import printColored, printHeader
 
 FOLDER = "files/"
 
@@ -19,8 +20,8 @@ def encrpyt_file(cipher, data, output_file="encrypted", mode="CBC"):
     ct = b64encode(ct_bytes).decode('utf-8')
 
     if(output_file):
-        print(printColored("Ciphertext " +
-                           (output_file if output_file else "") + ":"), ct[:50] + "...")
+        printColored(("Ciphertext " +
+                      (output_file if output_file else "") + ":"), ct[:50] + "...")
         file_out = open(FOLDER + output_file, "wb")
         file_out.write(ct_bytes)
         file_out.close()
@@ -45,7 +46,7 @@ def decrpyt_file(cipher, input_file, output_file, mode="CBC"):
 
 
 def AES_Encryption(symmetric_keys):
-    print("\n === AES ENCRYPTION === ")
+    printHeader("=== AES ENCRYPTION === ")
     [key_1, key_2] = symmetric_keys
 
     # iv will be generated randomly
@@ -82,7 +83,7 @@ def AES_Encryption(symmetric_keys):
     print('Encyption with CTR 256 Bit execution takes: ',
           str(round((stop - start)*1000, 2)) + " ms")
 
-    print("\n === AES DECRYPTION === ")
+    printHeader("=== AES DECRYPTION === ")
     CBC_128_cipher_decrypted = decrpyt_file(AES.new(key_1, AES.MODE_CBC, CBC_128_cipher.iv),
                                             "CBC_128_cipher_encrypted", "CBC_128_cipher_decrypted")
     CBC_256_cipher_decrypted = decrpyt_file(AES.new(key_2, AES.MODE_CBC, CBC_256_cipher.iv),
@@ -90,15 +91,15 @@ def AES_Encryption(symmetric_keys):
     CTR_cipher_decrypted = decrpyt_file(AES.new(key_2, AES.MODE_CTR, nonce=CTR_cipher.nonce),
                                         "CTR_cipher_encrypted", "CTR_cipher_decrypted", mode="CTR")
 
-    print(printColored("Decrypted file is same with original file (CBC 128 Bit):"),
-          CBC_128_cipher_decrypted == input_file_data)
-    print(printColored("Decrypted file is same with original file (CBC 256 Bit):"),
-          CBC_256_cipher_decrypted == input_file_data)
-    print(printColored("Decrypted file is same with original file (CTR 256 Bit):"),
-          CTR_cipher_decrypted == input_file_data)
+    printColored("Decrypted file is same with original file (CBC 128 Bit):",
+                 CBC_128_cipher_decrypted == input_file_data)
+    printColored("Decrypted file is same with original file (CBC 256 Bit):",
+                 CBC_256_cipher_decrypted == input_file_data)
+    printColored("Decrypted file is same with original file (CTR 256 Bit):",
+                 CTR_cipher_decrypted == input_file_data)
 
-    print("\n === CHANGE IV FOR CBC 128 === ")
-    print(printColored("Before change IV:"), CBC_128_ciphertext[0:50] + "...")
+    printHeader("=== CHANGE IV FOR CBC 128 === ")
+    printColored("Before change IV:", CBC_128_ciphertext[0:50] + "...")
     CBC_128_ciphertext_2 = encrpyt_file(
         AES.new(key_1, AES.MODE_CBC, iv=get_random_bytes(16)), file_as_bytes, output_file=None)
-    print(printColored("After change IV:"), CBC_128_ciphertext_2[0:50] + "...")
+    printColored("After change IV:", CBC_128_ciphertext_2[0:50] + "...")
